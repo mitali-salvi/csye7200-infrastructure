@@ -1,0 +1,6 @@
+- name: Delete IAM Policy
+  iam_managed_policy:
+    policy_name: "aws-cluster-autoscaler"
+    region: "{{ region }}"
+    profile: "{{ profile }}"
+    state: absent

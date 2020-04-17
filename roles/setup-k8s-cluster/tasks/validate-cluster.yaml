@@ -1,0 +1,6 @@
+- name: Validate cluster
+  shell: AWS_PROFILE={{ profile }} kops validate cluster --name {{ cluster_name }} --state {{ kops_state_store }}
+  register: result
+  until: result.stdout.find("is ready") != -1
+  retries: 20
+  delay: 60

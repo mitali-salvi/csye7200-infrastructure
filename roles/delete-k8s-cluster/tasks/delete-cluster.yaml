@@ -1,0 +1,6 @@
+- name: Initiate Delete Kubernetes Cluster
+  shell: echo "Deleting Cluster  {{ cluster_name }} "
+
+- name: Deleting Kubernetes Cluster
+  shell: |
+    AWS_PROFILE={{ profile }} kops delete cluster {{ cluster_name }} --state={{ kops_state_store }} --yes

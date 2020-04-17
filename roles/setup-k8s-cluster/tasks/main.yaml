@@ -1,0 +1,14 @@
+- name: AWS Facts
+  import_tasks: set-aws-facts.yaml
+
+- name: Create Cluster Tasks
+  import_tasks: create-cluster.yaml
+
+- name: Security Group tasks
+  import_tasks: change-security-group-rules.yaml
+
+- name: Setup and Create RDS
+  import_tasks: setup-rds.yaml
+
+- name: Validate Cluster
+  import_tasks: validate-cluster.yaml

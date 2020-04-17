@@ -1,0 +1,22 @@
+---
+start: false
+delete: false
+
+node_count: 2
+master_count: 1
+node_size: "t2.medium"
+master_size: "t2.medium"
+topology: "private"
+networking: "weave"
+kops_state_store: ""
+cluster_name: ""
+dns_zone_id: ""
+availability_zones: "us-east-1a"
+bastion: true
+dns: "private"
+cloud: "aws"
+profile: "dev"
+k8s_version: "1.13.0"
+ssh_path: ""
+region: "us-east-1"
+public_dns_zone_id: ""

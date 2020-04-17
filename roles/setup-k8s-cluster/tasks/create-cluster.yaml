@@ -1,0 +1,23 @@
+- name: Initiate Create Kubernetes Cluster
+  shell: echo "Creating Cluster  {{ cluster_name }} "
+
+- name: Creating Cluster Configuration
+  shell: |
+    AWS_PROFILE={{ profile }} kops create cluster --cloud={{ cloud }} --zones={{ nodes_availability_zones }} \ 
+    --master-count={{ master_count }} \
+    --master-zones={{ masters_availability_zones }} \
+    --dns-zone={{ dns_zone_id }} \ 
+    --dns={{ dns }} \
+    --node-count={{ node_count }} \ 
+    --node-size={{ node_size }} \ 
+    --master-size={{ master_size }} \
+    --topology={{ topology }} \
+    --name={{ cluster_name }} \
+    --networking={{ networking }} \
+    --bastion={{ bastion }} \
+    --ssh-public-key={{ ssh_path }} \
+    --state={{ kops_state_store }} \
+    --kubernetes-version={{ k8s_version }} 
+
+- name: Setup Cluster
+  shell: AWS_PROFILE={{ profile }} kops update cluster {{ cluster_name }} --state={{ kops_state_store }} --yes

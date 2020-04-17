@@ -1,0 +1,8 @@
+- name: aws availability zones
+  aws_az_facts:
+  register: az_regions
+
+- name: Set Fact
+  set_fact:
+    nodes_availability_zones: "{{ az_regions.availability_zones[0:node_count] | map(attribute='zone_name') | list | join(',') }}"
+    masters_availability_zones: "{{ az_regions.availability_zones[0:master_count] | map(attribute='zone_name') | list | join(',') }}"

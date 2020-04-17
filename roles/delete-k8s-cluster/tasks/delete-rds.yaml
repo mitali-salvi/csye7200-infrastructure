@@ -1,0 +1,23 @@
+- name: Get RDS Security Group
+  ec2_group_facts:
+    region: "{{ region }}"
+    profile: "{{ profile }}"
+    filters:
+      group-name: rds_security_group
+  register: rds_security_group
+
+- name: Delete RDS
+  rds:
+    command: delete
+    region: "{{ region }}"
+    profile: "{{ profile }}"
+    wait: yes
+    wait_timeout: 600
+    instance_name: mysql-database
+
+- name: Delete RDS Security Group
+  ec2_group:
+    region: "{{ region }}"
+    profile: "{{ profile }}"
+    group_id: "{{ rds_security_group.security_groups[0].group_id }}"
+    state: absent
