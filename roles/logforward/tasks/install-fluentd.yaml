@@ -1,0 +1,16 @@
+- name: Create a fluentd namespace
+  k8s:
+    name: fluentd
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Install fluentd chart
+  shell: |
+    helm install --name fluentd \
+    --namespace fluentd \
+    --set awsAccessKeyId={{  fluentd_accessid }} \
+    --set awsSecretAccessKey={{  fluentd_accesskey }} \
+    --set awsRegion=us-east-1 \
+    --set rbac.create=true \
+    incubator/fluentd-cloudwatch

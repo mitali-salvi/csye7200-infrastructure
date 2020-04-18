@@ -1,0 +1,6 @@
+- name: Execute lambda function to load data in RDS
+  execute_lambda:
+    name: sql-loader
+    profile: "{{ profile }}"
+    region: "{{ region }}"
+  register: response

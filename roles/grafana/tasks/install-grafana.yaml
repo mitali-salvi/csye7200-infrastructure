@@ -1,0 +1,26 @@
+- name: Create a grafana namespace
+  k8s:
+    name: grafana
+    api_version: v1
+    kind: Namespace
+    state: present
+    
+- name: Create ConfigMap for Grafana to use Prometheus as data source
+  k8s:
+    state: present
+    namespace: grafana
+    src: roles/grafana/tasks/datasources-grafana.yaml
+
+- name: Create ConfigMap for Grafana to import dashboard
+  k8s:
+    state: present
+    namespace: grafana
+    src: roles/grafana/tasks/configmap.yaml
+
+- name: Install grafana chart
+  shell: helm install --name grafana \
+   --set sidecar.datasources.enabled=true \
+   --set sidecar.dashboards.enabled=true \
+   --namespace=grafana \
+   --set persistence.enabled=true \
+   stable/grafana

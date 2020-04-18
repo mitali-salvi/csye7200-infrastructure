@@ -1,8 +1,8 @@
 - name: Delete VPC Peering Connection
   import_tasks: delete-vpc-peering.yaml
 
-# - name: Delete IAM Policy
-#   import_tasks: delete-iam-policy.yaml
+- name: Delete IAM Policy
+  import_tasks: delete-iam-policy.yaml
 
 - name: Delete Cluster
   import_tasks: delete-cluster.yaml

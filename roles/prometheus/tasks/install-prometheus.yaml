@@ -1,0 +1,9 @@
+- name: Create a prometheus namespace
+  k8s:
+    name: prometheus
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Install prometheus chart
+  shell: helm install --name prometheus stable/prometheus --namespace=prometheus -f roles/prometheus/tasks/prometheus-values.yaml

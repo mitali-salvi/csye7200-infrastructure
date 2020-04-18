@@ -1,0 +1,14 @@
+- name: Replace cluster name in instance group yaml
+  replace:
+    dest: roles/cluster-autoscaling/tasks/nodes-instance-group.yaml
+    regexp: 'CLUSTER_NAME'
+    replace: '{{ cluster_name }}'
+
+- name: Download cluster-autoscaler.yml
+  get_url:
+    url: https://raw.githubusercontent.com/kubernetes/kops/master/addons/cluster-autoscaler/v1.8.0.yaml
+    dest: roles/cluster-autoscaling/tasks/cluster-autoscaler.yml
+
+- name: Create Auto scaling Configuration
+  script:
+    cmd: autoscaling-cluster.sh "{{ cluster_name }}" "{{ kops_state_store }}" "{{ profile }}"

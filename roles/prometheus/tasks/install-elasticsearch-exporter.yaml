@@ -1,0 +1,13 @@
+- name: Create namespace for elastic search exporter
+  k8s:
+    name: elasticsearch-exporter
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Install elastic search exporter chart
+  shell: helm install --name elasticsearch-exporter \
+    --namespace api \
+    --set es.uri=http://elasticsearch.api.svc.cluster.local:9200 \
+    --set podSecurityPolicies.enabled=true \
+    stable/elasticsearch-exporter

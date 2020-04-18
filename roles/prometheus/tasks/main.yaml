@@ -1,0 +1,5 @@
+- name: Install Prometheus
+  import_tasks: install-prometheus.yaml
+
+- name: Install Grafelacticsearch-exporter
+  import_tasks: install-elasticsearch-exporter.yaml

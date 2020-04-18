@@ -1,0 +1,45 @@
+- name: Create a ui namespace
+  k8s:
+    name: ui
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create a api namespace
+  k8s:
+    name: api
+    api_version: v1
+    kind: Namespace
+    state: present
+
+- name: Create Tiller ServiceAccount.
+  k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: tiller
+        namespace: kube-system
+
+- name: Create Cluster Role Binding
+  k8s:
+    state: present
+    definition: 
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: tiller-cluster-rule
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+      - kind: ServiceAccount
+        name: tiller
+        namespace: kube-system
+
+- name: Set up Helm and Tiller.
+  command: helm init --wait --service-account tiller
+  register: helm_init_result
+  changed_when: "'already installed' not in helm_init_result.stdout"

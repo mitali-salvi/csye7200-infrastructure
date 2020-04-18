@@ -1,0 +1,9 @@
+- name: Install K8s metric server helm chart
+  shell: helm install stable/metrics-server \
+    --set rbac.create=true \
+    --set args[0]="--kubelet-insecure-tls=true" \
+    --set args[1]="--kubelet-preferred-address-types=InternalIP" \
+    --set args[2]="--v=2" \
+    --set args[3]="--deprecated-kubelet-completely-insecure" \
+    --set args[4]="--kubelet-port=10255" \
+    --name metrics-server

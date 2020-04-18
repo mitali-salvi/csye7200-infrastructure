@@ -12,3 +12,33 @@
 
   - role: delete-k8s-cluster
     when: command == "delete"
+
+  - role: helm
+    when: command == "start"
+
+  - role: prometheus
+    when: command == "start"
+
+  - role: grafana
+    when: command == "start"
+
+  - role: logforward
+    when: command == "start"
+
+  - role: helper
+    when: command == "start"
+
+  # - role: jenkins
+  #   when: command == "start"
+
+  # - role: ingress
+  #   when: command == "start"
+
+  # - role: k8s-dashboard
+  #   when: command == "start"
+
+  - role: metric-server
+    when: command == "start"
+
+  - role: cluster-autoscaling
+    when: command == "start"

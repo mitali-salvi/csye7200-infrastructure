@@ -12,3 +12,6 @@
 
 - name: Validate Cluster
   import_tasks: validate-cluster.yaml
+
+# - name: Initialise Database
+#   import_tasks: invoke-lambda.yaml
