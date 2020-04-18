@@ -198,7 +198,7 @@ spec:
       serviceAccountName: cluster-autoscaler
       containers:
         - name: cluster-autoscaler
-          image: k8s.gcr.io/cluster-autoscaler:v1.2.2
+          image: {{IMAGE}}
           livenessProbe:
             httpGet:
               path: /health-check
@@ -218,18 +218,18 @@ spec:
             - ./cluster-autoscaler
             - --v=4
             - --stderrthreshold=info
-            - --cloud-provider=aws
+            - --cloud-provider={{CLOUD_PROVIDER}}
             - --skip-nodes-with-local-storage=false
-            - --nodes=2:3:nodes.dev.csye6225-spring2019-salvimi.me
+            - --nodes={{MIN_NODES}}:{{MAX_NODES}}:{{GROUP_NAME}}
           env:
             - name: AWS_REGION
-              value: us-east-1
+              value: {{AWS_REGION}}
           volumeMounts:
             - name: ssl-certs
-              mountPath: /etc/ssl/certs/ca-certificates.crt
+              mountPath: {{SSL_CERT_PATH}}
               readOnly: true
       volumes:
         - name: ssl-certs
           hostPath:
-            path: /etc/ssl/certs/ca-certificates.crt
+            path: {{SSL_CERT_PATH}}
       dnsPolicy: "Default"
