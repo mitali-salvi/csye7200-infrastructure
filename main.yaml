@@ -28,8 +28,8 @@
   - role: helper
     when: command == "start"
 
-  # - role: jenkins
-  #   when: command == "start"
+  - role: jenkins
+    when: command == "start"
 
   # - role: ingress
   #   when: command == "start"

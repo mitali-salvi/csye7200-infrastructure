@@ -29,6 +29,14 @@
     state: accept
   register: action_peer
 
+- name: Get default IGW
+  ec2_vpc_igw:
+    profile: "{{ profile }}"
+    region: "{{ region }}"
+    vpc_id: "{{ default_vpc.vpcs[0].vpc_id }}"
+    state: present
+  register: default_igw
+
 - name: Gather Kubernetes IGW
   ec2_vpc_igw_facts:
     region: "{{ region }}"
@@ -78,6 +86,8 @@
     routes:
       - dest: "{{ kubernetes_vpc.vpcs[0].cidr_block }}"
         vpc_peering_connection_id: "{{ vpc_peer.peering_id }}"
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ default_igw.gateway_id }}"
     lookup: id
 
 - name: Creating security group for RDS
