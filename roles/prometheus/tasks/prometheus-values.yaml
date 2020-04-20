@@ -1065,16 +1065,16 @@ serverFiles:
         scrape_interval: 5s
         static_configs:
           - targets: ['backend.api.svc.cluster.local:8080']
-      - job_name: 'elastic-search-metrics'
-        metrics_path: '/metrics'
-        scrape_interval: 5s
-        static_configs:
-          - targets: ['elasticsearch-exporter.api.svc.cluster.local:9108']
+      # - job_name: 'elastic-search-metrics'
+      #   metrics_path: '/metrics'
+      #   scrape_interval: 5s
+      #   static_configs:
+      #     - targets: ['elasticsearch-exporter.api.svc.cluster.local:9108']
       - job_name: 'frontend-metrics'
         metrics_path: '/metrics'
         scrape_interval: 5s
         static_configs:
-          - targets: ['frontend.ui.svc.cluster.local:8080']
+          - targets: ['frontend.ui.svc.cluster.local:80']
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)

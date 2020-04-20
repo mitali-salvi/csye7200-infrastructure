@@ -21,6 +21,7 @@
   shell: helm install --name grafana \
    --set sidecar.datasources.enabled=true \
    --set sidecar.dashboards.enabled=true \
+   --set service.type=LoadBalancer 
    --namespace=grafana \
    --set persistence.enabled=true \
    stable/grafana

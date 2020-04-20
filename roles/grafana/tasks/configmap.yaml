@@ -167,7 +167,7 @@ data:
         "uid": "c7gdH8AWz",
         "version": 3
       }
-  custom-elasticsearch-dashboard.json: |-
+  custom-frontend-dashoard.json: |-
     {
       "__inputs": [
         {
@@ -180,12 +180,6 @@ data:
         }
       ],
       "__requires": [
-        {
-          "type": "panel",
-          "id": "gauge",
-          "name": "Gauge",
-          "version": ""
-        },
         {
           "type": "grafana",
           "id": "grafana",
@@ -222,60 +216,9 @@ data:
       "gnetId": null,
       "graphTooltip": 0,
       "id": null,
-      "iteration": 1572697939485,
+      "iteration": 1572687208811,
       "links": [],
       "panels": [
-        {
-          "cacheTimeout": null,
-          "datasource": "Prometheus",
-          "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 0,
-            "y": 0
-          },
-          "id": 2,
-          "links": [],
-          "options": {
-            "fieldOptions": {
-              "calcs": [
-                "mean"
-              ],
-              "defaults": {
-                "mappings": [],
-                "max": 10,
-                "min": 0,
-                "thresholds": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ],
-                "title": ""
-              },
-              "override": {},
-              "values": false
-            },
-            "orientation": "auto",
-            "showThresholdLabels": false,
-            "showThresholdMarkers": true
-          },
-          "pluginVersion": "6.4.2",
-          "targets": [
-            {
-              "expr": "elasticsearch_cluster_health_number_of_nodes{cluster=\"myesdb\"}",
-              "refId": "A"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Number of Nodes",
-          "type": "gauge"
-        },
         {
           "aliasColors": {},
           "bars": false,
@@ -285,12 +228,12 @@ data:
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
-            "h": 8,
+            "h": 9,
             "w": 12,
-            "x": 6,
+            "x": 0,
             "y": 0
           },
-          "id": 4,
+          "id": 2,
           "legend": {
             "avg": false,
             "current": false,
@@ -316,8 +259,8 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "elasticsearch_indices_docs_total",
-              "format": "time_series",
+              "expr": "rate(api_call_time{}[1m]) / api_call_time{}",
+              "legendFormat": "",
               "refId": "A"
             }
           ],
@@ -325,7 +268,7 @@ data:
           "timeFrom": null,
           "timeRegions": [],
           "timeShift": null,
-          "title": "Number of Show Details",
+          "title": "Frontend Api Calls",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -363,57 +306,90 @@ data:
           }
         },
         {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "Prometheus",
+          "fill": 1,
+          "fillGradient": 0,
           "gridPos": {
-            "h": 8,
-            "w": 6,
-            "x": 18,
+            "h": 9,
+            "w": 12,
+            "x": 12,
             "y": 0
           },
-          "id": 6,
-          "options": {
-            "fieldOptions": {
-              "calcs": [
-                "mean"
-              ],
-              "defaults": {
-                "mappings": [],
-                "max": 10,
-                "min": 0,
-                "thresholds": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "#EAB839",
-                    "value": 5
-                  },
-                  {
-                    "color": "red",
-                    "value": 7
-                  }
-                ],
-                "unit": "s"
-              },
-              "override": {},
-              "values": false
-            },
-            "orientation": "auto",
-            "showThresholdLabels": false,
-            "showThresholdMarkers": true
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
           },
-          "pluginVersion": "6.4.2",
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
           "targets": [
             {
-              "expr": "elasticsearch_index_stats_indexing_index_time_seconds_total{cluster=\"myesdb\",index=\"recipe\"} / elasticsearch_index_stats_indexing_index_total{cluster=\"myesdb\",index=\"recipe\"}",
+              "expr": "rate(api_call_hist_sum{path=~\"/.*\"}[1m]) / api_call_hist_count{path=~\"/.*\"}",
+              "legendFormat": "{{path}}",
               "refId": "A"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
+          "timeRegions": [],
           "timeShift": null,
-          "title": "Time taken to index ",
-          "type": "gauge"
+          "title": "Get Frontend Metrics",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
         }
       ],
       "refresh": "5s",
@@ -424,7 +400,7 @@ data:
         "list": []
       },
       "time": {
-        "from": "now-6h",
+        "from": "now-3h",
         "to": "now"
       },
       "timepicker": {
@@ -442,9 +418,9 @@ data:
         ]
       },
       "timezone": "",
-      "title": "ElasticSearch Dashboard",
-      "uid": "Ak4l0U0Wk",
-      "version": 1
+      "title": "Front End Dashboard",
+      "uid": "avh12UAWk",
+      "version": 4
     }
   custome-kube-dashboard.json: |-
     {
