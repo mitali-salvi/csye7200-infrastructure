@@ -1,4 +1,10 @@
-# infrastructure repo
+# CSYE 7220 - Infrastructure
+## Team Information
+| Name | Email Address |
+| --- | --- |
+| Mitali Salvi| salvi.mi@husky.neu.edu |
+| PinHo Wang| wang.pinh@husky.neu.edu |
+
 
 ## Pre-requisites
 You need to configure the following first before using this playbook:
@@ -53,17 +59,15 @@ If we have `~/.aws/credentials`, we do not need `~/.boto`. So open `~/.boto` in 
 
 For kops/k8s we need to have a domain/hosted zone. Create public and private DNS hosted zones using the AWS Route 53 service for each of your member accounts. Name these Hosted Zones as follows:
 
-`<environment>.<domain-name>`. 
+`prod.<domain-name>`. 
 
-In our case: `dev.<domain-name>` and `prod.<domain-name>`
 
 ### 5. Create S3 bucket for KOPS State Store
 
 Create an S3 bucket in `us-east-1` region for each of your member accounts. The name of the bucket can be anything but the following format is recommended:-
 
-`<environment>.<domain-name>-state-store`
+`prod.<domain-name>-state-store`
 
-In our case: `dev.<domain-name>-state-store` and `prod.<domain-name>-state-store`
 
 ### 6. Generate new SSH key for connecting to bastion host
 
@@ -84,6 +88,8 @@ Run the playbook `main.yaml` in the root of the repository with extra variables 
 ansible-playbook main.yaml --extra-vars "<variable-key>=<variable-value>"
 
 ```
+
+
 ### **Given below is the list of accepted variables.**
 
 | Key | Required | Default | Values |
@@ -117,10 +123,13 @@ Run the following command in the root of the project
 ```xml
 ansible-playbook main.yaml --extra-vars "command=start cluster_name=<name-of-your-cluster> kops_state_store=s3://<name-of-your-s3-bucket> dns_zone_id=<private-hosted-zone-id> ssh_path="ssh_file_path" profile=<aws-profile> fluentd_accessid=<fluentd-iam-user-access-id> fluentd_accesskey=<fluentd-iam-user-access-key> public_dns_zone_id=<public-hosted-zone-id>  public_domain_name=<domain-name>"
 ```
+
+
 ### To connect to the bastion node, use the ssh key passed in the previous command:- 
 ```sh
 ssh -o "IdentitiesOnly=yes" -i /path/to/key admin@"DNSNameOfLoadBalancer"
 ```
+
 
 ### To delete a Kubernetes Cluster use the following
 Run the following command in the root of the project
@@ -128,6 +137,7 @@ Run the following command in the root of the project
 ```xml
 ansible-playbook main.yaml --extra-vars "command=delete cluster_name=<name-of-your-cluster> kops_state_store=s3://<name-of-your-s3-bucket>"
 ```
+
 
 ### To ssh into bastion node
 
